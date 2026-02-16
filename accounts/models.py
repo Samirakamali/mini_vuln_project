@@ -24,13 +24,17 @@ class CustomUser(AbstractUser):
 
 
 class ActivityLog(models.Model):
+    
     ACTION_CHOICES = [
-        ("REGISTER", "REGISTER"),
-        ("LOGIN", "LOGIN"),
-        ("LOGOUT", "LOGOUT"),
-        ("TOKEN_REFRESH", "TOKEN_REFRESH"),
-        ("PASSWORD_CHANGE", "PASSWORD_CHANGE"),
-    ]
+    ("REGISTER", "REGISTER"),
+    ("LOGIN", "LOGIN"),
+    ("LOGOUT", "LOGOUT"),
+    ("TOKEN_REFRESH", "TOKEN_REFRESH"),
+    ("PASSWORD_CHANGE", "PASSWORD_CHANGE"),
+    ("PROFILE_UPDATE", "PROFILE_UPDATE"),
+    ("PASSWORD_RESET_REQUEST", "PASSWORD_RESET_REQUEST"),
+    ("PASSWORD_RESET_CONFIRM", "PASSWORD_RESET_CONFIRM"),
+]
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
