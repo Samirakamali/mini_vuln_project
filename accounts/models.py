@@ -34,6 +34,7 @@ class ActivityLog(models.Model):
     ("PROFILE_UPDATE", "PROFILE_UPDATE"),
     ("PASSWORD_RESET_REQUEST", "PASSWORD_RESET_REQUEST"),
     ("PASSWORD_RESET_CONFIRM", "PASSWORD_RESET_CONFIRM"),
+    ("USERS_LIST", "USERS_LIST"),
 ]
 
     user = models.ForeignKey(
@@ -44,7 +45,7 @@ class ActivityLog(models.Model):
     action = models.CharField(max_length=30, choices=ACTION_CHOICES)
 
     ip = models.GenericIPAddressField(null=True, blank=True)
-    user_agent = models.TextField(blank=True) #Chrome/Firefox/Android/Windows
+    user_agent = models.TextField(blank=True) # Chrome/Firefox/Android/Windows
 
     extra = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
