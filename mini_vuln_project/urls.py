@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from accounts.jwt_views import MyTokenObtainPairView, MyTokenRefreshView
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
@@ -30,5 +31,6 @@ urlpatterns = [
     path("api/", include("scans.urls")),
     path("api/", include("vulns.urls")),
     path("api/", include("alerts.urls")),
+    
 ]
 

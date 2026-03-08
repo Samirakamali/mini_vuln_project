@@ -10,19 +10,24 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=6)
 
     class Meta:
-        model = User
+        model = User # this means this serializer work on this model
         fields = [
             "id", "username", "password", "email",
-            "first_name", "last_name", "phone", "organization", "role"
-        ]
+            "first_name", "last_name", "phone", "organization"
+        ] # recive these fields from request and validate and save them
 
-    def create(self, validated_data):
+    def create(self, validated_data): # this is executed when serializer.save() is called
         password = validated_data.pop("password")
-        user = User(**validated_data)
+        user = User(**validated_data) # makain an user without password: user = CustomUser(username="samira", email="samira@uni-oulu.fi")
         user.set_password(password) # hash the password
         user.save()
         return user
 
+class MeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "first_name", "last_name"]
+        
 
 class ActivityLogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,4 +73,14 @@ class ForgotPasswordConfirmSerializer(serializers.Serializer):
 
     def validate_new_password(self, value):
         validate_password(value)
+        return value
+    
+
+class DeleteAccountSerializer(serializers.Serializer):
+    password = serializers.CharField(write_only=True)
+
+    def validate_password(self, value):
+        user = self.context["request"].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Password is incorrect.")
         return value

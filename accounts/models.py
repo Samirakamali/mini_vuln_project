@@ -4,20 +4,17 @@ from django.conf import settings
 
 
 class CustomUser(AbstractUser):
-    
-    phone = models.CharField(max_length=30, blank=True)
-    organization = models.CharField(max_length=120, blank=True)
 
     #the first case is saved in datbase and the secound one is shown in admin pannle
     ROLE_CHOICES = [
         ("USER", "USER"),
-        ("ANALYST", "ANALYST"),
-        ("ADMIN", "ADMIN"),
+        ("ANALYST", "ANALYST"),    
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="USER")
 
-   
-    is_email_verified = models.BooleanField(default=False)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="USER")
+    phone = models.CharField(max_length=30, blank=True)
+    organization = models.CharField(max_length=120, blank=True)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
@@ -35,18 +32,18 @@ class ActivityLog(models.Model):
     ("PASSWORD_RESET_REQUEST", "PASSWORD_RESET_REQUEST"),
     ("PASSWORD_RESET_CONFIRM", "PASSWORD_RESET_CONFIRM"),
     ("USERS_LIST", "USERS_LIST"),
+    ("ACCOUNT_DELETE", "ACCOUNT_DELETE"),
 ]
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="activity_logs",
-    )
-    action = models.CharField(max_length=30, choices=ACTION_CHOICES)
+    ) #User_id from CustomUser table
 
+    action = models.CharField(max_length=30, choices=ACTION_CHOICES)
     ip = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.TextField(blank=True) # Chrome/Firefox/Android/Windows
-
     extra = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
