@@ -1,5 +1,6 @@
+# vulns/serializers.py
 from rest_framework import serializers
-from .models import Vulnerability
+from .models import Vulnerability, Alert
 from scans.serializers import ScanSerializer
 
 class VulnerabilitySerializer(serializers.ModelSerializer):
@@ -14,3 +15,11 @@ class VulnerabilitySerializer(serializers.ModelSerializer):
         if v not in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]:
             raise serializers.ValidationError("severity must be LOW/MEDIUM/HIGH/CRITICAL.")
         return v
+
+
+class AlertSerializer(serializers.ModelSerializer):
+    vulnerability_detail = VulnerabilitySerializer(source="vulnerability", read_only=True)
+
+    class Meta:
+        model = Alert
+        fields = "__all__"
