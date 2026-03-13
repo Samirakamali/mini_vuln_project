@@ -1,6 +1,6 @@
 # Mini Vulnerability Scanner API
 
-A lightweight **Django REST API–based vulnerability scanning platform** designed for discovering assets, scanning them using Nmap, and auditing potential vulnerabilities.
+A lightweight **Dockerized Django REST API–based vulnerability scanning platform** designed for discovering assets, scanning them using Nmap, and auditing potential vulnerabilities.
 This project demonstrates a modular architecture for **asset discovery, scanning, and vulnerability auditing** with authentication and activity logging.
 
 ---
